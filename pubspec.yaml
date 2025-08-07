@@ -36,6 +36,10 @@ dependencies:
   cupertino_icons: ^1.0.8
   shared_preferences: ^2.2.2
   flutter_svg: ^2.0.10+1
+  dropdown_button2: ^2.3.9
+  camera: ^0.11.2
+  permission_handler: ^12.0.1
+  flutter_screenutil: ^5.9.0
 
 dev_dependencies:
   flutter_test:

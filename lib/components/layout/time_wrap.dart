@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../ui/timeline_widget.dart';
 import 'page_container.dart';
 import 'scrollable_content.dart';
 
@@ -23,20 +22,8 @@ class TimeWrap extends StatelessWidget {
       header: header,
       backgroundColor: backgroundColor,
       customBorder: customBorder,
-      content: Column(
-        children: [
-          // Scrollable content area
-          Expanded(
-            child: ScrollableContent(
-              child: content,
-            ),
-          ),
-          // Fixed timeline widget at bottom with 20px padding
-          Padding(
-            padding: const EdgeInsets.only(bottom: 0),
-            child: TimelineWidget(),
-          ),
-        ],
+      content: ScrollableContent(
+        child: content,
       ),
     );
   }

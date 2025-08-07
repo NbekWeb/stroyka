@@ -40,5 +40,20 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera access is required to take photos for project documentation and progress tracking.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo library access is needed to save captured photos and select existing images for your projects.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone access is needed for video recording features in the app.</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 </dict>
 </plist>

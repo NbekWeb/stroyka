@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TimelineWidgetStyles {
   // Container styles
-  static const double containerHeight = 400;
+  static const double containerHeight = 300;
   static const EdgeInsets containerPadding = EdgeInsets.only(top: 0);
   
   // Timeline positioning
@@ -12,10 +12,10 @@ class TimelineWidgetStyles {
   static const double centerButtonSize = 110;
   
   // Button colors
-  static const Color runningButtonColor = Color(0xFFABABAB);
-  static const Color stoppedButtonColor = Color(0xFFB7C8B5);
+  static const Color runningButtonColor = Color(0xFF0177DE);
+  static const Color stoppedButtonColor = Color(0xFF0177DE);
   static const Color buttonIconColor = Colors.white;
-  static const double buttonIconSize = 80;
+  static const double buttonIconSize = 40;
   
   // Shadow styles
   static const BoxShadow buttonShadow = BoxShadow(
@@ -41,14 +41,15 @@ class TimelineWidgetStyles {
   
   // Text styles
   static const TextStyle totalTimeTextStyle = TextStyle(
-    fontSize: 55,
+    fontSize: 72,
     fontWeight: FontWeight.w300,
-    color: Colors.black,
+    color: Colors.white,
+    fontFamily: 'monospace',
   );
   
   static const TextStyle currentTimeTextStyle = TextStyle(
     fontSize: 14,
-    color: Colors.black87,
+    color: Colors.white,
   );
   
   // Animation values

@@ -11,7 +11,6 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   void _handleConnect() {
-    // Navigate to home page
     Navigator.of(context).pushReplacementNamed('/');
   }
 
@@ -23,16 +22,22 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // reg.png image
-              Image.asset(
-                'assets/img/reg.jpg',
+              const SizedBox(height: 48),
+              Container(
+                constraints: const BoxConstraints(
+                  maxHeight: 374,
+                ),
                 width: double.infinity,
-                fit: BoxFit.fitWidth,
+                child: Image.asset(
+                  'assets/img/reg.jpg',
+                  width: double.infinity,
+                  fit: BoxFit.contain,
+                ),
               ),
               const SizedBox(height: 32),
-              // Info text
               const Text(
                 'Contact the site manager to register your phone number.',
                 textAlign: TextAlign.center,
@@ -43,10 +48,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               const SizedBox(height: 32),
-              // Phone input style box (empty, just for design)
-            
-              const SizedBox(height: 24),
-              // Connect button
               SizedBox(
                 width: 297,
                 height: 48,
@@ -67,10 +68,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
+              const SizedBox(height: 32), // pastdan ham joy qoldirish uchun
             ],
           ),
         ),
       ),
     );
   }
-}
+} 

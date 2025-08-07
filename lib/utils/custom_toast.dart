@@ -1,8 +1,27 @@
 import 'package:flutter/material.dart';
 
 class CustomToast {
-  static void showTopToast(BuildContext context, String message) {
+  static void showTopToast(BuildContext context, String message, {ToastType type = ToastType.error}) {
     OverlayEntry? overlayEntry;
+    
+    Color backgroundColor;
+    IconData icon;
+    
+    switch (type) {
+      case ToastType.success:
+        backgroundColor = Colors.green;
+        icon = Icons.check_circle_outline;
+        break;
+      case ToastType.info:
+        backgroundColor = Colors.blue;
+        icon = Icons.info_outline;
+        break;
+      case ToastType.error:
+      default:
+        backgroundColor = Colors.red;
+        icon = Icons.error_outline;
+        break;
+    }
     
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -11,33 +30,33 @@ class CustomToast {
         right: 16,
         child: Material(
           color: Colors.transparent,
-                      child: TweenAnimationBuilder<double>(
-              duration: const Duration(milliseconds: 200),
-              tween: Tween(begin: 1.0, end: 0.0),
-              curve: Curves.easeOut,
-              builder: (context, value, child) {
-                return Transform.translate(
-                  offset: Offset(value * MediaQuery.of(context).size.width, 0),
-                  child: child,
-                );
-              },
+          child: TweenAnimationBuilder<double>(
+            duration: const Duration(milliseconds: 200),
+            tween: Tween(begin: 1.0, end: 0.0),
+            curve: Curves.easeOut,
+            builder: (context, value, child) {
+              return Transform.translate(
+                offset: Offset(value * MediaQuery.of(context).size.width, 0),
+                child: child,
+              );
+            },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: Colors.red,
+                color: backgroundColor,
                 borderRadius: BorderRadius.circular(8),
-                                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
-                  const Icon(
-                    Icons.error_outline,
+                  Icon(
+                    icon,
                     color: Colors.white,
                     size: 20,
                   ),
@@ -81,4 +100,10 @@ class CustomToast {
       }
     });
   }
+}
+
+enum ToastType {
+  success,
+  info,
+  error,
 } 

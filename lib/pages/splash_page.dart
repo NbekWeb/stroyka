@@ -29,8 +29,8 @@ class _SplashPageState extends State<SplashPage> {
       // User is logged in, go to home page
       Navigator.of(context).pushReplacementNamed('/');
     } else {
-      // User is not logged in, go to login page
-      Navigator.of(context).pushReplacementNamed('/login');
+      // User is not logged in, go to welcome page
+      Navigator.of(context).pushReplacementNamed('/welcome');
     }
   }
 

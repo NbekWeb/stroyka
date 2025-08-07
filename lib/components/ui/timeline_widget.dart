@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math' show pi;
 import 'dart:async';
 import 'styles/timeline_widget_styles.dart';
 
@@ -67,121 +66,84 @@ class _TimelineWidgetState extends State<TimelineWidget> {
     return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
   }
 
-  String _getCurrentTime() {
-    DateTime now = DateTime.now();
-    return '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}';
-  }
-
-  String _getCurrentDate() {
-    DateTime now = DateTime.now();
-    return '${now.year} ${now.month.toString().padLeft(2, '0')}.${now.day.toString().padLeft(2, '0')}';
-  }
-
-    @override
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       height: TimelineWidgetStyles.containerHeight,
-      padding: TimelineWidgetStyles.containerPadding,
-      child: Stack(
-        alignment: Alignment.center,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFF00203A), // #00203A
+            Color(0xFF000509), // #000509
+          ],
+          stops: [0.0385, 0.2163],
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Timeline wrapper with progress segments and button
-          Positioned(
-            top: TimelineWidgetStyles.timelineTopPosition,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Progress segments
-                ...List.generate(TimelineWidgetStyles.maxProgressIndex, (index) {
-                  final angle = (index * TimelineWidgetStyles.angleStep) + TimelineWidgetStyles.startAngle;
-                  return Positioned(
-                    child: Transform.rotate(
-                      angle: angle * (pi / 180),
-                      child: Transform.translate(
-                        offset: Offset(0, TimelineWidgetStyles.timelineSegmentOffset),
-                        child: Transform.rotate(
-                          angle: TimelineWidgetStyles.rotationAngle * (pi / 180),
-                          child: Image.asset(
-                            index < progressIndex 
-                                ? 'assets/img/timeline-green.png'
-                                : 'assets/img/timeline.png',
-                            width: TimelineWidgetStyles.timelineSegmentSize,
-                            height: TimelineWidgetStyles.timelineSegmentSize,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-                
-                // Center button
-                Container(
-                  width: TimelineWidgetStyles.centerButtonSize,
-                  height: TimelineWidgetStyles.centerButtonSize,
-                  decoration: BoxDecoration(
-                    color: isRunning ? TimelineWidgetStyles.runningButtonColor : TimelineWidgetStyles.stoppedButtonColor,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      TimelineWidgetStyles.buttonShadow,
-                    ],
-                  ),
-                  child: IconButton(
-                    onPressed: _toggleTimer,
-                    icon: isRunning 
-                      ? Icon(
-                          Icons.stop_rounded,
-                          color: TimelineWidgetStyles.buttonIconColor,
-                          size: TimelineWidgetStyles.buttonIconSize,
-                        )
-                      : Image.asset(
-                          'assets/icon/play.png',
-                          width: TimelineWidgetStyles.buttonIconSize,
-                          height: TimelineWidgetStyles.buttonIconSize,
-                          color: TimelineWidgetStyles.buttonIconColor,
-                        ),
-                  ),
-                ),
-              ],
+          // Timer display
+          Text(
+            _formatTime(totalSeconds),
+            style: const TextStyle(
+              fontSize: 72,
+              fontWeight: FontWeight.w300,
+              color: Colors.white,
+              fontFamily: 'monospace',
             ),
           ),
           
-          // Total time display with opacity
-          Positioned(
-            top: TimelineWidgetStyles.timeDisplayTopPosition,
-            left: 0,
-            right: 0,
-            child: Opacity(
-              opacity: totalSeconds > 0 ? TimelineWidgetStyles.visibleOpacity : TimelineWidgetStyles.hiddenOpacity,
-                              child: Container(
-                  margin: TimelineWidgetStyles.timeDisplayMargin,
-                  padding: TimelineWidgetStyles.timeDisplayPadding,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(TimelineWidgetStyles.timeDisplayBorderRadius),
-                    boxShadow: [
-                      TimelineWidgetStyles.timeDisplayShadow,
-                    ],
-                  ),
-                                  child: Center(
-                    child: Text(
-                      _formatTime(totalSeconds),
-                      style: TimelineWidgetStyles.totalTimeTextStyle,
+          const SizedBox(height: 40),
+          
+          // Timeline with pill-shaped elements
+          Container(
+            height: 40,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(TimelineWidgetStyles.maxProgressIndex, (index) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Container(
+                    width: 19.3,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: index < progressIndex 
+                          ? const Color(0xFF0177DE).withOpacity(0.8) // Active timeline element
+                          : const Color(0xFF0177DE).withOpacity(0.2), // Inactive timeline element
+                      borderRadius: BorderRadius.circular(100),
                     ),
                   ),
+                );
+              }),
+            ),
+          ),
+          
+          const SizedBox(height: 40),
+          
+          // Play/Stop button
+          GestureDetector(
+            onTap: _toggleTimer,
+            child: Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: const Color(0xFF0177DE),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF0177DE).withOpacity(0.3),
+                    blurRadius: 20,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
-            ),
-          ),
-          
-          // Current time and date with opacity
-          Positioned(
-            bottom: TimelineWidgetStyles.timeDisplayBottomPosition,
-            child: Opacity(
-              opacity: totalSeconds > 0 ? TimelineWidgetStyles.visibleOpacity : TimelineWidgetStyles.hiddenOpacity,
-              child: Text(
-                '${_getCurrentTime()} ${_getCurrentDate()}',
-                style: TimelineWidgetStyles.currentTimeTextStyle,
+              child: Icon(
+                isRunning ? Icons.stop : Icons.play_arrow,
+                color: Colors.white,
+                size: 40,
               ),
             ),
           ),
